@@ -1,0 +1,161 @@
+set nocompatible           " Do not behave like vi
+
+
+filetype plugin indent on  " Load plugins according to detected filetype.
+syntax enable              " Enable syntax highlighting.
+
+set number                 " Display line number
+set relativenumber         " Display relative numbers
+
+"The following commands set <TAB> width to 4 spaces in various modes
+set autoindent             " Indent according to previous line.
+set expandtab              " Use spaces instead of tabs.
+set tabstop     =4         " Actual width of tab character
+set softtabstop =4         " Tab key indents by 4 spaces.
+set shiftwidth  =4         " >> indents by 4 spaces.
+set shiftround             " >> indents to next multiple of 'shiftwidth'.
+set mouse       =a         " Enable the mouse actions in all modes
+
+set backspace   =indent,eol,start  " Make backspace work as you would expect.
+set hidden                 " Switch between buffers without having to save first.
+set laststatus  =2         " Always show statusline.
+set display     =lastline  " Show as much as possible of the last line.
+
+set showmode               " Show current mode in command-line.
+set showcmd                " Show already typed keys when more are expected.
+
+set incsearch              " Highlight while searching with / or ?.
+set hlsearch               " Keep matches highlighted.
+set ignorecase             "Ignore case when searching
+
+set ttyfast                " Faster redrawing.
+set lazyredraw             " Only redraw when necessary.
+
+set splitbelow             " Open new windows below the current window.
+set splitright             " Open new windows right of the current window.
+
+set cursorline             " Find the current line quickly.
+set wrapscan               " Searches wrap around end-of-file.
+set report      =0         " Always report changed lines.
+set synmaxcol   =200       " Only highlight the first 200 columns.
+
+set list                   " Show non-printable characters.
+if has('multi_byte') && &encoding ==# 'utf-8'
+    let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
+else
+    let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
+endif
+
+" Spell checking activated globally
+au BufNewFile,BufRead *.md,*.txt,*rc :set spell spelllang=en_us
+
+" Put all temporary files under the same directory.
+" https://github.com/mhinz/vim-galore#temporary-files
+"set backup
+"set backupdir   =$HOME/.vim/files/backup/
+"set backupext   =-vimbackup
+"set backupskip  =
+"set directory   =$HOME/.vim/files/swap//
+"set updatecount =100
+"set undofile
+"set undodir     =$HOME/.vim/files/undo/
+"set viminfo     ='100,n$HOME/.vim/files/info/viminfo
+set noswapfile           "Deactivate swapfile
+
+" highlight unnecessary whitespace
+highlight BadWhitespace ctermbg=red guibg=darkred
+autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+
+" Swap colon and semicolon for faster command execution
+noremap : ;
+noremap ; :
+
+""""""""" VIM PLUG
+" Automatic installation: install vim-plug if not found
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+    silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+\| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+" Start the plugin manager
+call plug#begin('~/.vim/bundle')
+
+" Register vim-plug itself for :help support
+Plug 'junegunn/vim-plug'
+
+" comment line(s) with gcc/gc<motion>
+Plug 'tpope/vim-commentary'
+
+" git commands in vim and diff in files
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Python-specific text objects and motions
+Plug 'jeetsukumaran/vim-pythonsense'
+
+" broot launches vim
+Plug 'lstwn/broot'
+
+" folding for Python
+"Plug 'tmhedberg/SimpylFold'
+
+" fzf
+Plug 'junegunn/fzf.vim'
+
+" display and search LSP symbols and thumbnails
+Plug 'liuchengxu/vista.vim'
+
+" auto-indenting
+Plug 'vimjas/vim-python-pep8-indent'
+
+" Asynchronous Linting Engine & vim-lsp
+Plug 'dense-analysis/ale'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'rhysd/vim-lsp-ale'
+
+" lean & mean status/tabline
+Plug 'vim-airline/vim-airline'
+
+" vscode-dark theme
+Plug 'tomasiser/vim-code-dark'
+
+" Initialize plugin system
+call plug#end()
+
+
+""""""""" PYTHON SUPPORT
+
+"python virtualenv support
+py3 << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    exec(
+        compile(
+            open(activate_this, "rb").read(),
+            activate_this, 'exec'),
+            dict(__file__=activate_this)
+    )
+EOF
+
+
+"""""""""""""""""" LEADER KEYS
+" Set leader to space
+nnoremap <SPACE> <Nop> 
+let mapleader = " " " map leader to Space
+map <leader>j :bn<CR>
+map <leader>k :bp<CR>
+
+
+colorscheme codedark       " Set the color theme to match vscode
+"""""""""""""""""" AIRLINE
+let g:airline_theme = 'codedark'
