@@ -1,4 +1,7 @@
-# Dotfiles 
+# Dotfiles
 
-This are my dotfiles managed with `chezmoi` for achieving
-system inter-operability. 
+My personal dotfiles conveniently stored in a repo. This should come together with a git alias and wrapper to make their management easier.
+
+## Chezmoi
+
+This are my dotfiles managed with [chezmoi](https://www.chezmoi.io/) for achieving -system inter-operability, and for integration with 3rd party secret stores.
