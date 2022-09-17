@@ -150,10 +150,10 @@ EOF
 
 """""""""""""""""" LEADER KEYS
 " Set leader to space
-nnoremap <SPACE> <Nop> 
 let mapleader = " " " map leader to Space
-map <leader>j :bn<CR>
-map <leader>k :bp<CR>
+noremap <leader>j :bn<CR>
+noremap <leader>k :bp<CR>
+noremap <leader>w :w<CR>
 
 
 colorscheme codedark       " Set the color theme to match vscode
