@@ -47,7 +47,7 @@ else
 endif
 
 " Spell checking activated globally
-au BufNewFile,BufRead *.md,*.txt,*rc :set spell spelllang=en_us
+autocmd BufNewFile,BufRead *.md,*.txt,*rc :set spell spelllang=en_us
 
 " Put all temporary files under the same directory.
 " https://github.com/mhinz/vim-galore#temporary-files
@@ -65,6 +65,9 @@ set noswapfile           "Deactivate swapfile
 " highlight unnecessary whitespace
 highlight BadWhitespace ctermbg=red guibg=darkred
 autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+"visually wrap text at 80 characters
+set columns=80
+autocmd BufRead,BufNewFile * set linebreak
 
 
 " Swap colon and semicolon for faster command execution
