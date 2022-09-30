@@ -12,3 +12,10 @@ This are my dotfiles managed with [chezmoi](https://www.chezmoi.io/) for achievi
 Freeze the installed packages (as in `pip freeze > requirements.txt`) with the command:
 
     $ pacman -Qqe > pkglist.txt
+
+### Ansible
+
+I'm using Ansible to automate the installation of software.
+
+Refernces: 
+- [Learn Linux TV](https://www.youtube.com/watch?v=gIDywsGBqf4)
