@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  connection: local
+  tags: always
+  become: true
+  pre_tasks:
+
+  tasks:
+    - name: install my packages (WIP)
+      pacman: 
+        update_cache: true
+        name: pkglist.txt
+      when: ansible_distribution == "Archlinux"
