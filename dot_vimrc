@@ -14,7 +14,7 @@ set tabstop     =4         " Actual width of tab character
 set softtabstop =4         " Tab key indents by 4 spaces.
 set shiftwidth  =4         " >> indents by 4 spaces.
 set shiftround             " >> indents to next multiple of 'shiftwidth'.
-set mouse       =a         " Enable the mouse actions in all modes
+set mouse       =v         " Enable the mouse actions in all modes
 
 set backspace   =indent,eol,start  " Make backspace work as you would expect.
 set hidden                 " Switch between buffers without having to save first.
