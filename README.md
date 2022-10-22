@@ -1,21 +1,24 @@
 # Dotfiles
 
-My personal dotfiles conveniently stored in a repo. This should come together with a git alias and wrapper to make their management easier.
+My personal dotfiles conveniently stored in a repo. This should come together with a git alias and wrapper to make their management easier. 
 
-## Chezmoi
+## From scratch
 
-This are my dotfiles managed with [chezmoi](https://www.chezmoi.io/) for achieving -system inter-operability, and for integration with 3rd party secret stores.
+If you need to start this kind of repo all over again then, these are the step to reproduce.
 
+Create the repo
 
-### Archlinux
+    $ git init --bare $HOME/.dotfiles.git
 
-Freeze the installed packages (as in `pip freeze > requirements.txt`) with the command:
+Add alias to your rc file. Something like:
 
-    $ pacman -Qqe > pkglist.txt
+    $ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
 
-### Ansible
+Add the 'sanity configurations' (do not show untracked files):
 
-I'm using Ansible to automate the installation of software.
+    $ dfl config --local status.showUntrackedFiles no
 
-Refernces: 
-- [Learn Linux TV](https://www.youtube.com/watch?v=gIDywsGBqf4)
+Customized .gitignore file name to your choice: eg.
+
+    $ dfl config --local core.excludesFile=.dflignore
+
