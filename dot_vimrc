@@ -149,18 +149,21 @@ EOF
 
 
 """""""""""""""""" LEADER KEYBINDINGS
-" Set leader to space
-let mapleader = " " " map leader to Space
+let mapleader = " "             " map leader to Space
+noremap <leader>ev :vsplit $MYVIMRC<CR>
 noremap <leader>j :bn<CR>
 noremap <leader>k :bp<CR>
 noremap <leader>s :source %<CR>
-noremap <leader>w :w<CR>
+noremap <leader>w <CTRL-W>w
+let maplocalleader = "//"       " Set localleader to //
 " Ctrl-u capitalize current words
 inoremap <c-u> <esc>viwUi
 nnoremap <c-u> viwU
 " Swap colon and semicolon for faster command execution
 noremap : ;
 noremap ; :
+" Toggle off highlight of previous search
+nnoremap <silent> <leader><esc> :noh<cr><esc>
 
 
 """""""""""""""""" AIRLINE
