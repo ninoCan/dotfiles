@@ -176,3 +176,7 @@ let g:airline_theme = 'codedark'
 if &term =~ '256color'
     set t_ut=
 endif
+
+"""""""""""""""""" ABBREVIATIONS
+iabbrev @@ ninocangialosi@yahoo.it
+iabbrev myssign Antonino Cangialosi
