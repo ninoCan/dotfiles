@@ -154,7 +154,9 @@ alias pg-restart="pg_ctl -D /home/nino/Databases/ -l logfile restart"
 alias y="yay"
 alias pbcopy='xclip -selection clipboard' 
 alias cz='chezmoi'
+alias cza='chezmoi add'
 alias czs='chezmoi status'
+alias czcd='chezmoi cd'
 alias download-webpage='wget --page-requisites --convert-links --user-agent=Mozilla -nc'
 alias dcp='docker-compose'
 
