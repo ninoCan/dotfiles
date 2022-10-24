@@ -63,11 +63,11 @@ autocmd BufNewFile,BufRead *.md,*.txt,*rc :set spell spelllang=en_us
 "set viminfo     ='100,n$HOME/.vim/files/info/viminfo
 set noswapfile           "Deactivate swapfile
 
+""""""""" AUTO COMMANDS
 " highlight unnecessary whitespace
 highlight BadWhitespace ctermbg=red guibg=darkred
 autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 set columns=78          "visually wrap text at 80 characters
-autocmd BufRead,BufNewFile * set linebreak
 
 
 
