@@ -70,9 +70,6 @@ set columns=78          "visually wrap text at 80 characters
 autocmd BufRead,BufNewFile * set linebreak
 
 
-" Swap colon and semicolon for faster command execution
-noremap : ;
-noremap ; :
 
 """"""""" VIM PLUG
 " Automatic installation: install vim-plug if not found
@@ -151,13 +148,19 @@ if 'VIRTUAL_ENV' in os.environ:
 EOF
 
 
-"""""""""""""""""" LEADER KEYS
+"""""""""""""""""" LEADER KEYBINDINGS
 " Set leader to space
 let mapleader = " " " map leader to Space
-noremap <leader>s :source %<CR>
 noremap <leader>j :bn<CR>
 noremap <leader>k :bp<CR>
+noremap <leader>s :source %<CR>
 noremap <leader>w :w<CR>
+" Ctrl-u capitalize current words
+inoremap <c-u> <esc>viwUi
+nnoremap <c-u> viwU
+" Swap colon and semicolon for faster command execution
+noremap : ;
+noremap ; :
 
 
 """""""""""""""""" AIRLINE
