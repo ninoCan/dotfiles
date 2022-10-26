@@ -1,14 +1,15 @@
 """ This is ninoCan's .vimrc file """
 set nocompatible           " Do not behave like vi
 
-
 filetype plugin indent on  " Load plugins according to detected filetype
 syntax enable              " Enable syntax highlighting
 
+" Numberline {{{
 set number                 " Display line number
 set relativenumber         " Display relative numbers
+"}}}
 
-"The following commands set <TAB> width to 4 spaces in various modes
+"The following commands set <TAB> width to 4 spaces {{{
 set autoindent             " Indent according to previous line
 set expandtab              " Use spaces instead of tabs
 set tabstop     =4         " Actual width of tab character
@@ -16,40 +17,56 @@ set softtabstop =4         " Tab key indents by 4 spaces
 set shiftwidth  =4         " >> indents by 4 spaces
 set shiftround             " >> indents to next multiple of 'shiftwidth'
 set mouse       =v         " Enable the mouse actions in all modes
+" }}}
 
+" {{{
 set backspace   =indent,eol,start  " Make backspace work as you would expect
 set hidden                 " Switch between buffers without having to save first
 set laststatus  =2         " Always show statusline
-set display     =lastline  " Show as much as possible of the last line
+"}}}
 
+" Visual rending of overflowing lines {{{
+set wrap
+set linebreak              " Wrap long lines
+set showbreak=⏎⏎\ \        " How to render the continued line
+set display     =lastline  " Show as much as possible of the last line
+set columns     =75        " visually wrap text at 80 character 
+set formatoptions+=w       " Wrap lines at whitespaces do not wrap after period
+set breakindent            " Respect indentation when folding
 set showmode               " Show current mode in command-line
 set showcmd                " Show already typed keys when more are expected
+" }}}
 
+" Search options {{{
 set incsearch              " Highlight while searching with / or ?
 set hlsearch               " Keep matches highlighted
 set ignorecase             "Ignore case when searching
+"}}}
 
-set ttyfast                " Faster redrawing
-set lazyredraw             " Only redraw when necessary
 
+" {{{
 set splitbelow             " Open new windows below the current window
 set splitright             " Open new windows right of the current window
+" }}}
 
+" {{{
 set cursorline             " Find the current line quickly
 set wrapscan               " Searches wrap around end-of-file
 set report      =0         " Always report changed lines
 set synmaxcol   =200       " Only highlight the first 200 columns
+" }}}
 
+" {{{
 set list                   " Show non-printable characters
 if has('multi_byte') && &encoding ==# 'utf-8'
     let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
 else
     let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
 endif
+" }}}
 
-" Spell checking activated globally
-autocmd BufNewFile,BufRead *.md,*.txt,*rc :set spell spelllang=en_us
 
+" {{{
 " Put all temporary files under the same directory
 " https://github.com/mhinz/vim-galore#temporary-files
 "set backup
@@ -62,77 +79,100 @@ autocmd BufNewFile,BufRead *.md,*.txt,*rc :set spell spelllang=en_us
 "set undodir     =$HOME/.vim/files/undo/
 "set viminfo     ='100,n$HOME/.vim/files/info/viminfo
 set noswapfile           "Deactivate swapfile
+" }}}
 
 """"""""" AUTO COMMANDS
-" highlight unnecessary whitespace
-highlight BadWhitespace ctermbg=red guibg=darkred
-autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-set columns=78          "visually wrap text at 80 characters
+" highlight unnecessary whitespace {{{
+augroup highlight_whitespace:
+    autocmd!
+    highlight BadWhitespace ctermbg=red guibg=darkred
+    autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+augroup END
+" }}}
 
+" Spell checking activated globally {{{
+augroup check_spelling:
+    autocmd!
+    autocmd BufNewFile,BufRead *.md,*.txt,*rc :set spell spelllang=en_us
+augroup END
+" }}}
+
+" Vimscript file settings {{{
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
 
 
 """"""""" VIM PLUG
-" Automatic installation: install vim-plug if not found
+
+" Automatic installation: install vim-plug if not found {{{
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+" }}}
 
-" Run PlugInstall if there are missing plugins
+" Run PlugInstall if there are missing plugins {{{
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 \| PlugInstall --sync | source $MYVIMRC
 \| endif
+" }}}
 
-" Start the plugin manager
+" Start the plugin manager and register plugins {{{
 call plug#begin('~/.vim/bundle')
 
-" Register vim-plug itself for :help support
-Plug 'junegunn/vim-plug'
+    " Register vim-plug itself for :help support
+    Plug 'junegunn/vim-plug'
 
-" comment line(s) with gcc/gc<motion>
-Plug 'tpope/vim-commentary'
+    " comment line(s) with gcc/gc<motion>
+    Plug 'tpope/vim-commentary'
 
-" git commands in vim and diff in files
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+    " git commands in vim and diff in files
+    Plug 'tpope/vim-fugitive'
+    Plug 'airblade/vim-gitgutter'
 
-" Python-specific text objects and motions
-Plug 'jeetsukumaran/vim-pythonsense'
+    " Python-specific text objects and motions
+    Plug 'jeetsukumaran/vim-pythonsense'
 
-" broot launches vim
-Plug 'lstwn/broot'
+    " broot launches vim
+    Plug 'lstwn/broot'
 
-" folding for Python
-"Plug 'tmhedberg/SimpylFold'
+    " folding for Python
+    "Plug 'tmhedberg/SimpylFold'
 
-" fzf
-Plug 'junegunn/fzf.vim'
+    " fzf
+    Plug 'junegunn/fzf.vim'
 
-" display and search LSP symbols and thumbnails
-Plug 'liuchengxu/vista.vim'
+    " display and search LSP symbols and thumbnails
+    Plug 'liuchengxu/vista.vim'
 
-" auto-indenting
-Plug 'vimjas/vim-python-pep8-indent'
+    " auto-indenting
+    Plug 'vimjas/vim-python-pep8-indent'
 
-" Asynchronous Linting Engine & vim-lsp
-Plug 'dense-analysis/ale'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'rhysd/vim-lsp-ale'
+    " Asynchronous Linting Engine & vim-lsp
+    Plug 'dense-analysis/ale'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'rhysd/vim-lsp-ale'
 
-" lean & mean status/tabline
-Plug 'vim-airline/vim-airline'
+    " lean & mean status/tabline
+    Plug 'vim-airline/vim-airline'
 
-" vscode-dark theme
-Plug 'tomasiser/vim-code-dark'
+    " vscode-dark theme
+    Plug 'tomasiser/vim-code-dark'
 
-" Initialize plugin system
+    " search and autocomplete unicode characters
+    Plug 'chrisbra/unicode.vim'
+
 call plug#end()
+"}}}
 
 
 """"""""" PYTHON SUPPORT
 
-"python virtualenv support
+"python virtualenv support {{{
 py3 << EOF
 import os
 import sys
@@ -146,9 +186,11 @@ if 'VIRTUAL_ENV' in os.environ:
             dict(__file__=activate_this)
     )
 EOF
+" }}}
 
 
 """""""""""""""""" LEADER KEYBINDINGS
+"  {{{
 let mapleader = " "             " map leader to Space
 noremap <leader>ev :vsplit $MYVIMRC<CR>
 noremap <leader>j :bn<CR>
@@ -164,19 +206,24 @@ noremap : ;
 noremap ; :
 " Toggle off highlight of previous search
 nnoremap <silent> <leader><esc> :noh<cr><esc>
+" }}}
 
 
 """""""""""""""""" AIRLINE
+" {{{
+set ttyfast                " Faster redrawing
+set t_Co=256                " Set colors to 256
+set t_ut=
 colorscheme codedark       " Set the color theme to match vscode
 let g:airline_theme = 'codedark'
+set enc=utf-8
+set guifont=Powerline_Consolas:h11
+set renderoptions=type:directx,gamma:1.5,contrast:0.5,geom:1,renmode:5,taamode:1,level:0.5
+" }}}
 
-" Disable Background Color Erase (BCE) so that color schemes
-" render properly when inside 256-color tmux and GNU screen.
-" src: https://www.reddit.com/r/vim/comments/57huhd/any_idea_why_terminal_vim_isnt_correctly/
-if &term =~ '256color'
-    set t_ut=
-endif
 
 """""""""""""""""" ABBREVIATIONS
+"{{{
 iabbrev @@ ninocangialosi@yahoo.it
 iabbrev myssign Antonino Cangialosi
+"}}}
